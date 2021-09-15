@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-redditclone-dev-152257-authRole",
+      "UnauthRoleArn": "arn:aws:iam::933345684592:role/amplify-redditclone-dev-152257-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::933345684592:role/amplify-redditclone-dev-152257-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-redditclone-dev-152257-deployment",
+      "UnauthRoleName": "amplify-redditclone-dev-152257-unauthRole",
+      "StackName": "amplify-redditclone-dev-152257",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:933345684592:stack/amplify-redditclone-dev-152257/60d46f10-15ed-11ec-9d2e-068ca1ce4eab",
+      "AmplifyAppId": "d3if0ipzrsoej7"
+    }
+  }
+}

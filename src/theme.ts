@@ -1,6 +1,5 @@
-import { createTheme } from "@material-ui/core";
+import { createTheme, responsiveFontSizes } from "@material-ui/core/styles";
 
-// Create a theme instance.
 const theme = createTheme({
   palette: {
     background: {
@@ -79,4 +78,5 @@ const theme = createTheme({
   },
 });
 
-export default theme;
+// https://material-ui.com/customization/theming/#responsivefontsizes-theme-options-theme
+export default responsiveFontSizes(theme);

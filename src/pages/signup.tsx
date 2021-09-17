@@ -1,16 +1,23 @@
 import React, { useState } from "react";
+import { CognitoUser } from "@aws-amplify/auth";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Button, TextField, Grid, Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { Auth } from "aws-amplify";
+import { useUser } from "./context/AuthContext";
+import { useRouter } from "next/router";
 
 interface IFormInput {
   username: string;
   email: string;
   password: string;
+  code: string;
 }
 
 export default function Signup() {
+  const { user, setUser } = useUser();
+  const router = useRouter();
+  const [showCode, setShowCode] = useState(false);
   const [open, setOpen] = useState(false);
   const [signUpError, setSignUpError] = useState<string>("");
   const {
@@ -19,9 +26,9 @@ export default function Signup() {
     handleSubmit,
   } = useForm<IFormInput>();
 
-  console.log("Errors", errors);
+  console.log("hooks,user: ", user);
 
-  async function signUpWithEmailAndPassword(data: IFormInput) {
+  async function signUpWithEmailAndPassword(data: IFormInput): Promise<CognitoUser> {
     const { username, password, email } = data;
     try {
       const { user } = await Auth.signUp({
@@ -31,20 +38,38 @@ export default function Signup() {
           email,
         },
       });
-      console.log(user);
+      console.log("Signed up a user:", user);
+      return user;
     } catch (error) {
       throw error;
     }
   }
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log("Submitted the form");
-    console.log(data);
-
+  async function confirmSignUp(data: IFormInput) {
+    const { username, password, code } = data;
     try {
-      signUpWithEmailAndPassword(data);
+      await Auth.confirmSignUp(username, code);
+      const amplifyUser = await Auth.signIn(username, password);
+      console.log("Success, singed in a user", amplifyUser);
+      if (amplifyUser) {
+        router.push("/");
+      } else {
+        throw new Error("Something went wrong ");
+      }
     } catch (err) {
-      console.error(err);
+      console.error("error confirming sign up", err);
+    }
+  }
+
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    try {
+      if (showCode) {
+        confirmSignUp(data);
+      } else {
+        await signUpWithEmailAndPassword(data);
+        setShowCode(true);
+      }
+    } catch (err) {
       setSignUpError(err.message);
       setOpen(true);
     }
@@ -54,6 +79,7 @@ export default function Signup() {
     if (reason === "clickaway") {
       return;
     }
+    setOpen(false);
   };
 
   return (
@@ -97,15 +123,39 @@ export default function Signup() {
             error={errors.password ? true : false}
             helperText={errors.password ? errors.password.message : null}
             {...register("password", {
-              required: { value: true, message: "Please enter a password." },
-              minLength: { value: 8, message: "Please enter a stronger password." },
+              required: { value: true, message: "Please enter a code" },
+              minLength: { value: 8, message: "Your verification is 6 characters long." },
             })}
           />
         </Grid>
 
+        {showCode && (
+          <Grid item>
+            <TextField
+              variant="outlined"
+              label="Verification Code"
+              id="code"
+              type="text"
+              error={errors.code ? true : false}
+              helperText={errors.code ? errors.code.message : null}
+              {...register("code", {
+                required: { value: true, message: "Please enter a code." },
+                minLength: {
+                  value: 6,
+                  message: "Please enter a username between 3-16 characters.",
+                },
+                maxLength: {
+                  value: 6,
+                  message: "Please enter a username between 3-16 characters.",
+                },
+              })}
+            />
+          </Grid>
+        )}
+
         <Grid style={{ marginTop: 16 }}>
           <Button variant="contained" type="submit">
-            Sign up
+            {showCode ? "Confirm Code" : "Sign up"}
           </Button>
         </Grid>
       </Grid>

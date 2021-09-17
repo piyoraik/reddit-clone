@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Typography } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import { useUser } from "./context/AuthContext";
 import { listPosts } from "../graphql/queries";
 import API from "@aws-amplify/api";
 import { ListPostsQuery, Post } from "../API";
+import PostPreview from "../components/PostPreview";
 
 export default function Home() {
   const { user } = useUser();
@@ -23,11 +24,17 @@ export default function Home() {
         throw new Error("Cloud not get posts");
       }
     };
-
     fetchPostsFromApi();
   }, []);
 
   console.log("USER:", user);
   console.log("POSTS", posts);
-  return <Typography variant="h1">Hello World</Typography>;
+
+  return (
+    <Container maxWidth="md">
+      {posts.map((post) => (
+        <PostPreview key={post.id} post={post} />
+      ))}
+    </Container>
+  );
 }

@@ -12,8 +12,6 @@ type Post
   ) {
   id: ID!
   title: String!
-  PostID: ID!
-  Post: Post @connection(fields: ["PostID"])
   comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
 }
 

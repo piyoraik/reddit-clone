@@ -7,29 +7,9 @@ export const getPost = /* GraphQL */ `
     getPost(id: $id) {
       id
       title
-      PostID
       createdAt
       updatedAt
       owner
-      Post {
-        id
-        title
-        PostID
-        createdAt
-        updatedAt
-        owner
-        Post {
-          id
-          title
-          PostID
-          createdAt
-          updatedAt
-          owner
-        }
-        comments {
-          nextToken
-        }
-      }
       comments {
         items {
           id
@@ -54,18 +34,9 @@ export const listPosts = /* GraphQL */ `
       items {
         id
         title
-        PostID
         createdAt
         updatedAt
         owner
-        Post {
-          id
-          title
-          PostID
-          createdAt
-          updatedAt
-          owner
-        }
         comments {
           nextToken
         }
@@ -85,18 +56,9 @@ export const getComment = /* GraphQL */ `
       post {
         id
         title
-        PostID
         createdAt
         updatedAt
         owner
-        Post {
-          id
-          title
-          PostID
-          createdAt
-          updatedAt
-          owner
-        }
         comments {
           nextToken
         }
@@ -121,7 +83,6 @@ export const listComments = /* GraphQL */ `
         post {
           id
           title
-          PostID
           createdAt
           updatedAt
           owner

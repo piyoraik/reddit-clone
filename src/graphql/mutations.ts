@@ -10,29 +10,9 @@ export const createPost = /* GraphQL */ `
     createPost(input: $input, condition: $condition) {
       id
       title
-      PostID
       createdAt
       updatedAt
       owner
-      Post {
-        id
-        title
-        PostID
-        createdAt
-        updatedAt
-        owner
-        Post {
-          id
-          title
-          PostID
-          createdAt
-          updatedAt
-          owner
-        }
-        comments {
-          nextToken
-        }
-      }
       comments {
         items {
           id
@@ -55,29 +35,9 @@ export const updatePost = /* GraphQL */ `
     updatePost(input: $input, condition: $condition) {
       id
       title
-      PostID
       createdAt
       updatedAt
       owner
-      Post {
-        id
-        title
-        PostID
-        createdAt
-        updatedAt
-        owner
-        Post {
-          id
-          title
-          PostID
-          createdAt
-          updatedAt
-          owner
-        }
-        comments {
-          nextToken
-        }
-      }
       comments {
         items {
           id
@@ -100,29 +60,9 @@ export const deletePost = /* GraphQL */ `
     deletePost(input: $input, condition: $condition) {
       id
       title
-      PostID
       createdAt
       updatedAt
       owner
-      Post {
-        id
-        title
-        PostID
-        createdAt
-        updatedAt
-        owner
-        Post {
-          id
-          title
-          PostID
-          createdAt
-          updatedAt
-          owner
-        }
-        comments {
-          nextToken
-        }
-      }
       comments {
         items {
           id
@@ -151,18 +91,9 @@ export const createComment = /* GraphQL */ `
       post {
         id
         title
-        PostID
         createdAt
         updatedAt
         owner
-        Post {
-          id
-          title
-          PostID
-          createdAt
-          updatedAt
-          owner
-        }
         comments {
           nextToken
         }
@@ -185,18 +116,9 @@ export const updateComment = /* GraphQL */ `
       post {
         id
         title
-        PostID
         createdAt
         updatedAt
         owner
-        Post {
-          id
-          title
-          PostID
-          createdAt
-          updatedAt
-          owner
-        }
         comments {
           nextToken
         }
@@ -219,18 +141,9 @@ export const deleteComment = /* GraphQL */ `
       post {
         id
         title
-        PostID
         createdAt
         updatedAt
         owner
-        Post {
-          id
-          title
-          PostID
-          createdAt
-          updatedAt
-          owner
-        }
         comments {
           nextToken
         }

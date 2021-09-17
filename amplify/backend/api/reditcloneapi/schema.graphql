@@ -1,0 +1,43 @@
+type Post
+  @model
+  @auth(
+    rules: [
+      # Owner can perform any action on their own Post
+      { allow: owner, operations: [create, update, delete, read] }
+      # Other signed in users can read　everyone's posts
+      { allow: private, operations: [read] }
+      # Non-signed in users (guests) can read everyone's posts as well
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  title: String!
+  PostID: ID!
+  Post: Post @connection(fields: ["PostID"])
+  comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+}
+
+type Comment
+  @model
+  @key(name: "byPost", fields: ["postID", "content"])
+  @auth(
+    rules: [
+      { allow: owner, operations: [create, update, delete, read] }
+      { allow: private, operations: [read] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  postID: ID!
+  post: Post @connection(fields: ["postID"])
+  content: String!
+}
+
+# Post {
+#  id...
+#  title...
+#  comments
+#    id
+#    postID
+#    contents
+# }

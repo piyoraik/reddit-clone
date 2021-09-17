@@ -1,5 +1,8 @@
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Button, TextField, Grid } from "@material-ui/core";
+import { Button, TextField, Grid, Snackbar } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
+import { Auth } from "aws-amplify";
 
 interface IFormInput {
   username: string;
@@ -8,6 +11,8 @@ interface IFormInput {
 }
 
 export default function Signup() {
+  const [open, setOpen] = useState(false);
+  const [signUpError, setSignUpError] = useState<string>("");
   const {
     register,
     formState: { errors },
@@ -16,9 +21,39 @@ export default function Signup() {
 
   console.log("Errors", errors);
 
+  async function signUpWithEmailAndPassword(data: IFormInput) {
+    const { username, password, email } = data;
+    try {
+      const { user } = await Auth.signUp({
+        username,
+        password,
+        attributes: {
+          email,
+        },
+      });
+      console.log(user);
+    } catch (error) {
+      throw error;
+    }
+  }
+
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     console.log("Submitted the form");
     console.log(data);
+
+    try {
+      signUpWithEmailAndPassword(data);
+    } catch (err) {
+      console.error(err);
+      setSignUpError(err.message);
+      setOpen(true);
+    }
+  };
+
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
   };
 
   return (
@@ -74,6 +109,11 @@ export default function Signup() {
           </Button>
         </Grid>
       </Grid>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} security="error">
+          {signUpError}
+        </Alert>
+      </Snackbar>
     </form>
   );
 }

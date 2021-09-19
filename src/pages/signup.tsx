@@ -15,6 +15,7 @@ interface IFormInput {
 }
 
 export default function Signup() {
+  // eslint-disable-next-line no-unused-vars
   const { user, setUser } = useUser();
   const router = useRouter();
   const [showCode, setShowCode] = useState(false);
@@ -28,7 +29,9 @@ export default function Signup() {
 
   console.log("hooks,user: ", user);
 
-  async function signUpWithEmailAndPassword(data: IFormInput): Promise<CognitoUser> {
+  async function signUpWithEmailAndPassword(
+    data: IFormInput
+  ): Promise<CognitoUser> {
     const { username, password, email } = data;
     try {
       const { user } = await Auth.signUp({
@@ -84,7 +87,13 @@ export default function Signup() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-      <Grid container direction="column" alignItems="center" justifyContent="center" spacing={1}>
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        spacing={1}
+      >
         <Grid item>
           <TextField
             variant="outlined"
@@ -95,8 +104,14 @@ export default function Signup() {
             helperText={errors.username ? errors.username.message : null}
             {...register("username", {
               required: { value: true, message: "Please enter a username." },
-              minLength: { value: 3, message: "Please enter a username between 3-16 characters." },
-              maxLength: { value: 16, message: "Please enter a username between 3-16 characters." },
+              minLength: {
+                value: 3,
+                message: "Please enter a username between 3-16 characters.",
+              },
+              maxLength: {
+                value: 16,
+                message: "Please enter a username between 3-16 characters.",
+              },
             })}
           />
         </Grid>
@@ -124,7 +139,10 @@ export default function Signup() {
             helperText={errors.password ? errors.password.message : null}
             {...register("password", {
               required: { value: true, message: "Please enter a code" },
-              minLength: { value: 8, message: "Your verification is 6 characters long." },
+              minLength: {
+                value: 8,
+                message: "Your verification is 6 characters long.",
+              },
             })}
           />
         </Grid>

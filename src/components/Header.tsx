@@ -7,7 +7,8 @@ import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import AppleIcon from "@material-ui/icons/Apple";
 import { useUser } from "../pages/context/AuthContext";
-import { Button, Menu, MenuItem } from "@material-ui/core";
+import { Button, Menu, MenuItem, Tooltip } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 import { useRouter } from "next/router";
 import Auth from "@aws-amplify/auth";
 
@@ -62,6 +63,15 @@ export default function Header(): ReactElement {
           </Typography>
           {user && (
             <div>
+              <Tooltip title="Create Post">
+                <IconButton
+                  onClick={() => router.push("/create")}
+                  aria-label="create"
+                  color="inherit"
+                >
+                  <AddIcon />
+                </IconButton>
+              </Tooltip>
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"

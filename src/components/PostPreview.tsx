@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState, useEffect } from "react";
 import { ButtonBase, Grid, Paper, Typography } from "@material-ui/core";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
@@ -7,6 +7,7 @@ import { Post } from "../API";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import formatDataPosted from "../lib/formatDatePosted";
+import { Storage } from "@aws-amplify/storage";
 
 interface Props {
   post: Post;
@@ -14,6 +15,21 @@ interface Props {
 
 export default function PostPreview({ post }: Props): ReactElement {
   const router = useRouter();
+  const [postImage, setPostImage] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    async function getImageFormStorage() {
+      try {
+        const signedURL = await Storage.get(post.image);
+        // @ts-ignore
+        setPostImage(signedURL);
+      } catch (error) {
+        console.error("No Image found");
+      }
+    }
+
+    getImageFormStorage();
+  }, []);
 
   return (
     <Paper elevation={3}>
@@ -80,10 +96,10 @@ export default function PostPreview({ post }: Props): ReactElement {
                 <Typography variant="body1">{post.contents}</Typography>
               </Grid>
 
-              {!post.image && (
+              {post.image && postImage && (
                 <Grid item>
                   <Image
-                    src={"https://source.unsplash.com/random/980x540"}
+                    src={postImage}
                     height={540}
                     width={980}
                     layout="intrinsic"

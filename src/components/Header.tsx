@@ -55,6 +55,7 @@ export default function Header(): ReactElement {
             className={classes.menuButton}
             color="inherit"
             aria-label="menu"
+            onClick={() => router.push("/")}
           >
             <AppleIcon />
           </IconButton>

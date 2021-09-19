@@ -3,6 +3,9 @@ import { GetStaticProps, GetStaticPaths } from "next";
 import { withSSRContext } from "aws-amplify";
 import { listPosts, getPost } from "../../graphql/queries";
 import { ListPostsQuery, GetPostQuery, Post } from "../../API";
+import PostPreview from "../../components/PostPreview";
+import { Container } from "@material-ui/core";
+import PostComment from "../../components/PostComment";
 
 interface Props {
   post: Post;
@@ -10,7 +13,17 @@ interface Props {
 
 export default function IndividualPost({ post }: Props): ReactElement {
   console.log("God post", post);
-  return <div></div>;
+
+  return (
+    <Container maxWidth="md">
+      <PostPreview post={post} />
+
+      {/* Start rendering comments */}
+      {post.comments.items.map((comment) => (
+        <PostComment key={comment.id} comment={comment} />
+      ))}
+    </Container>
+  );
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {

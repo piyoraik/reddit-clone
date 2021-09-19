@@ -6,6 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { Post } from "../API";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import formatDataPosted from "../lib/formatDatePosted";
 
 interface Props {
   post: Post;
@@ -13,14 +14,6 @@ interface Props {
 
 export default function PostPreview({ post }: Props): ReactElement {
   const router = useRouter();
-  const convertDateToElapsed = function (date: string): string {
-    const now = new Date(Date.now());
-    const current = new Date(date);
-
-    const diff = now.getTime() - current.getTime();
-
-    return (diff / 1000 / 60 / 60).toFixed(0);
-  };
 
   return (
     <Paper elevation={3}>
@@ -74,7 +67,7 @@ export default function PostPreview({ post }: Props): ReactElement {
               <Grid item>
                 <Typography variant="body1">
                   Posted by <b>{post.owner}</b> at{" "}
-                  <b>{convertDateToElapsed(post.createdAt)} hours ago</b>
+                  <b>{formatDataPosted(post.createdAt)} hours ago</b>
                 </Typography>
               </Grid>
               <Grid item>

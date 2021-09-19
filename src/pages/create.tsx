@@ -12,7 +12,7 @@ interface IFormInput {
 interface Props {}
 
 export default function create({}: Props): ReactElement {
-  const [file, setFile] = useState<string>();
+  const [file, setFile] = useState<File>();
   const {
     register,
     formState: { errors },
@@ -21,6 +21,7 @@ export default function create({}: Props): ReactElement {
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
+    console.log(file);
   };
 
   return (
@@ -77,7 +78,9 @@ export default function create({}: Props): ReactElement {
           </Grid>
           {/* Button to submit the form wth those contents */}
           <Grid item>
-            <Button variant="contained">Create Post</Button>
+            <Button variant="contained" type="submit">
+              Create Post
+            </Button>
           </Grid>
         </Grid>
       </form>

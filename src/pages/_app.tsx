@@ -7,6 +7,7 @@ import type { AppProps } from "next/app";
 import Amplify from "aws-amplify";
 import AuthContext from "./context/AuthContext";
 import awsconfig from "../aws-exports";
+import Header from "../components/Header";
 
 Amplify.configure({ ...awsconfig, ssr: true });
 
@@ -23,12 +24,16 @@ function MyApp({ Component, pageProps }: AppProps) {
     <React.Fragment>
       <Head>
         <title>Reddit Clone</title>
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
       </Head>
       <AuthContext>
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
+          <Header />
           <Component {...pageProps} />
         </ThemeProvider>
       </AuthContext>

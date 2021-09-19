@@ -45,6 +45,7 @@ type Vote
     ]
   ) {
   # owner:
+  id: ID!
   vote: String!
   postID: ID!
   post: Post @connection(fields: ["postID"])

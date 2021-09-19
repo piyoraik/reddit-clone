@@ -42,8 +42,6 @@ export default function create({}: Props): ReactElement {
           title: data.title,
           contents: data.content,
           image: imagePath,
-          upvotes: 0,
-          downvotes: 0,
           // createdAt
           // updatedAt
           // owner
@@ -63,8 +61,6 @@ export default function create({}: Props): ReactElement {
       const createNewPostWithoutImageInput: CreatePostInput = {
         title: data.title,
         contents: data.content,
-        upvotes: 0,
-        downvotes: 0,
         // createdAt
         // updatedAt
         // owner
